@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    -  uses: actions/checkout@v4
+
+    -  name: Setup Node.js
+       uses: actions/setup-node@v4
+       with:  
+         node-version: '14'
+
+    -  name: Install dependencies
+       run: npm install
+
+    -  name: Runs Test
+       run: npm test
+       
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    -  uses: actions/checkout@v4
+
+    -  name: Setup Node.js
+       uses: actions/setup-node@v4
+       with:  
+         node-version: '14'
+
+    -  name: Install dependencies
+       run: npm install
+
+    -  name: Build project
+       run: npm run build
+
+    -  name: Upload Artifacts
+       uses: actions/upload-artifacts@v2
+       with:
+         name: build-artifacts
+         path: ./build
+         
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    -  uses: actions/checkout@v4
+
+    - name: Download build artifacts
+      uses: actions/download-artifacts@v2
+      with:
+        name: build-artifacts
+
+    - name: Setup AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access=key-id: S{{ secrets.AWS ACCESS KEY ID }}
+        aws-secret-access-key: S{{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Deploy to aws
+      run: |
+        aws s3 cp . s3//bucket-de-exemplo --resursive
