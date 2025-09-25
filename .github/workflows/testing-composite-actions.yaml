@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Hello World
         id: hello-world
-        uses: guiaanonima/workflow-fundamentos@v1
+        uses: guiaanonima/workflow-fundamentos@javascript
         with:
           my-input: world
 
