@@ -1,0 +1,19 @@
+on: [ push ]
+
+jobs: 
+  hello_world_job:
+    name: Um novo job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Hello World
+        id: hello-world
+        uses: guiaanonima/workflow-fundamentos@main
+        with:
+          my-input: world
+
+      - name: print output
+        run: echo $OUTPUT_FROM_HELLO
+        shell: bash
+        env:
+          OUTPUT_FROM_HELLO: ${{ steps.hello-world.outputs.my-outputs }}
