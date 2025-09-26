@@ -9,6 +9,6 @@ jobs:
       - name: Print Hello World
         run: echo "Hello World"
       - name: API_KEY
-        run: echo "Usando a APY_KEY ${{ env.API_KEY }}"
+        run: echo "Usando a API_KEY ${{ env.API_KEY }}"
         env:
           API_KEY: valor         
