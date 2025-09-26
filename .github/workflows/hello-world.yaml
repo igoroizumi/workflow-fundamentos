@@ -11,4 +11,4 @@ jobs:
       - name: API_KEY
         run: echo "Usando a APY_KEY ${{ env.API_KEY }}"
         env:
-          APY_KEY: valor         
+          API_KEY: valor         
